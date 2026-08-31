@@ -1,0 +1,67 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
+@import "tailwindcss";
+
+/* ==========================================================
+   GLOBAL RESET
+========================================================== */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: var(--font-body, "Plus Jakarta Sans", sans-serif);
+  overflow-x: hidden;
+}
+
+html,
+body {
+  width: 100%;
+  max-width: 100vw;
+  min-height: 100%;
+  background-color: var(--background, #fffdf5);
+  color: var(--foreground, #1e293b);
+  font-family: var(--font-body, "Plus Jakarta Sans", sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ==========================================================
+   TRIPZO DESIGN TOKENS
+========================================================== */
+:root {
+  --background: #fffdf5;
+  --foreground: #1e293b;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --primary: #8b5cf6;
+  --primary-hover: #7c3aed;
+  --primary-foreground: #ffffff;
+  --secondary: #f472b6;
+  --accent: #fbbf24;
+  --success: #34d399;
+  --border: #e2e8f0;
+  --card: #ffffff;
+  --input: #ffffff;
+  --ring: #8b5cf6;
+
+  --font-heading: "Outfit", sans-serif;
+  --font-body: "Plus Jakarta Sans", sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: var(--font-body, "Plus Jakarta Sans", sans-serif);
+}

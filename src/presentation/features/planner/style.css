@@ -1,0 +1,101 @@
+.planner-page-root {
+  width: 100%;
+  min-height: calc(100vh - 120px);
+  padding: 1.5rem 1rem;
+}
+
+.planner-error-alert {
+  max-width: 800px;
+  margin: 0 auto 1.5rem;
+  padding: 1rem 1.25rem;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.08);
+}
+
+.planner-error-close {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  color: #dc2626;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.planner-empty-state {
+  max-width: 620px;
+  margin: 4rem auto;
+  text-align: center;
+  background: #ffffff;
+  border-radius: 28px;
+  padding: 3.5rem 2.5rem;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.08);
+}
+
+.planner-empty-icon-halo {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1.5rem;
+  background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.planner-empty-icon {
+  color: #4f46e5;
+}
+
+.planner-empty-state h2 {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #0f172a;
+  margin: 0 0 0.75rem 0;
+}
+
+.planner-empty-state p {
+  font-size: 0.95rem;
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0 0 2rem 0;
+}
+
+.planner-start-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.9rem 2rem;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.35);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.planner-start-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(79, 70, 229, 0.45);
+}
+
+.planner-quota-notice {
+  margin-top: 1.5rem;
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.planner-quota-notice strong {
+  color: #475569;
+}

@@ -1,0 +1,103 @@
+.admin-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body, "Plus Jakarta Sans", sans-serif);
+  font-weight: 700;
+  border-radius: 9999px;
+  cursor: pointer;
+  border: 2px solid #1e293b;
+  box-shadow: 4px 4px 0 #1e293b;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  user-select: none;
+}
+
+.admin-btn--full {
+  width: 100%;
+}
+
+/* Sizes */
+.admin-btn--small {
+  height: 2.5rem;
+  padding: 0 1rem;
+  font-size: 0.875rem;
+}
+
+.admin-btn--medium {
+  height: 3rem;
+  padding: 0 1.5rem;
+  font-size: 0.9375rem;
+}
+
+.admin-btn--large {
+  height: 3.5rem;
+  padding: 0 2rem;
+  font-size: 1rem;
+}
+
+/* Variants */
+.admin-btn--primary {
+  background-color: var(--primary, #8b5cf6);
+  color: #ffffff;
+}
+
+.admin-btn--primary:hover:not(:disabled) {
+  background-color: #7c3aed;
+  transform: translateY(-2px);
+  box-shadow: 5px 5px 0 #1e293b;
+}
+
+.admin-btn--primary:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 2px 2px 0 #1e293b;
+}
+
+.admin-btn--secondary {
+  background-color: #ffffff;
+  color: #1e293b;
+}
+
+.admin-btn--secondary:hover:not(:disabled) {
+  background-color: #f8fafc;
+  transform: translateY(-2px);
+  box-shadow: 5px 5px 0 #1e293b;
+}
+
+.admin-btn--danger {
+  background-color: #ef4444;
+  color: #ffffff;
+}
+
+.admin-btn--danger:hover:not(:disabled) {
+  background-color: #dc2626;
+}
+
+/* Disabled */
+.admin-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: 2px 2px 0 #1e293b !important;
+}
+
+/* Spinner */
+.admin-btn__spinner-content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.admin-btn__spinner {
+  width: 1.25rem;
+  height: 1.25rem;
+  animation: admin-spin 1s linear infinite;
+}
+
+@keyframes admin-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
