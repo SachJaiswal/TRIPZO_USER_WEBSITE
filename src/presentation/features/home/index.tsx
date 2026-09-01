@@ -33,38 +33,82 @@ export const HomeFeature: React.FC = () => {
       <div className="user-home-feature">
         {/* Welcome Hero Banner */}
         <section className="user-hero-card">
-          <div className="user-hero-card__content">
-            <span className="user-hero-badge">
-              <Sparkles className="user-hero-badge__icon" />
-              <span>Tripzo AI Travel Engine</span>
-            </span>
+          <div className="user-hero-card__grid">
+            <div className="user-hero-card__text">
+              <span className="user-hero-badge">
+                <Sparkles className="user-hero-badge__icon" />
+                <span>Tripzo AI Travel Engine</span>
+              </span>
 
-            <h1 className="user-hero-title">
-              Where to next, {user?.name ? user.name.split(" ")[0] : "Traveler"}?{" "}
-              <Plane size={28} className="inline-hero-icon" />
-            </h1>
-            <p className="user-hero-subtitle">
-              Let Tripzo generate a complete personalized travel itinerary in seconds. Click the button below to start creating your trip!
-            </p>
+              <h1 className="user-hero-title">
+                Where to next, {user?.name ? user.name.split(" ")[0] : "Traveler"}?{" "}
+                <Plane size={28} className="inline-hero-icon" />
+              </h1>
+              <p className="user-hero-subtitle">
+                Let Tripzo generate a complete personalized travel itinerary in seconds. Click the button below to start creating your trip!
+              </p>
 
-            {/* AI Trip Launcher Hero Action */}
-            <div className="ai-planner-hero-action">
-              <button
-                type="button"
-                onClick={() => router.push("/planner")}
-                disabled={isQuotaExceeded}
-                className="ai-planner-btn ai-planner-btn--hero"
-              >
-                <Sparkles size={18} />
-                <span>Generate Itinerary</span>
-                <ArrowRight className="ai-planner-btn-icon" />
-              </button>
+              {/* AI Trip Launcher Hero Action */}
+              <div className="ai-planner-hero-action">
+                <button
+                  type="button"
+                  onClick={() => router.push("/planner")}
+                  disabled={isQuotaExceeded}
+                  className="ai-planner-btn ai-planner-btn--hero"
+                >
+                  <Sparkles size={18} />
+                  <span>Generate Itinerary</span>
+                  <ArrowRight className="ai-planner-btn-icon" />
+                </button>
 
-              {isQuotaExceeded && (
-                <span className="quota-exceeded-notice">
-                  Generation quota limit reached ({usage?.generations_count} / {usage?.max_allowed})
-                </span>
-              )}
+                {isQuotaExceeded && (
+                  <span className="quota-exceeded-notice">
+                    Generation quota limit reached ({usage?.generations_count} / {usage?.max_allowed})
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* CSS Floating Itinerary Preview */}
+            <div className="user-hero-card__visual">
+              <div className="floating-mockup">
+                <div className="floating-card floating-card--1">
+                  <div className="floating-card-header">
+                    <MapPin size={16} className="text-purple-600" />
+                    <span>Paris, France</span>
+                  </div>
+                  <div className="floating-card-title">Day 1: Arrival & Exploration</div>
+                  <div className="floating-card-tags">
+                    <span className="floating-tag">Sightseeing</span>
+                    <span className="floating-tag">Food</span>
+                  </div>
+                </div>
+
+                <div className="floating-card floating-card--2">
+                  <div className="floating-card-header">
+                    <Calendar size={16} className="text-amber-500" />
+                    <span>Next Week</span>
+                  </div>
+                  <div className="floating-card-row">
+                    <div className="floating-dot"></div>
+                    <div className="floating-line">Eiffel Tower Visit</div>
+                  </div>
+                  <div className="floating-card-row">
+                    <div className="floating-dot"></div>
+                    <div className="floating-line">Seine River Cruise</div>
+                  </div>
+                </div>
+
+                <div className="floating-card floating-card--3">
+                  <div className="floating-card-header">
+                    <Sparkles size={16} className="text-emerald-500" />
+                    <span>AI Optimized</span>
+                  </div>
+                  <div className="floating-card-budget">
+                    Est. Budget: ₹1,200
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
