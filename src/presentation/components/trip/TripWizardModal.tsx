@@ -55,6 +55,10 @@ export const TripWizardModal: React.FC<TripWizardModalProps> = ({
   const [prefs, setPrefs] = useState<TripPreferences>(initialPreferences);
   const [validationError, setValidationError] = useState<string | null>(null);
 
+  React.useEffect(() => {
+    setPrefs(initialPreferences);
+  }, [initialPreferences]);
+
   if (!isOpen) return null;
 
   const handleChange = (field: keyof TripPreferences, value: any) => {
@@ -102,6 +106,11 @@ export const TripWizardModal: React.FC<TripWizardModalProps> = ({
         setValidationError("Total budget must be greater than zero.");
         return false;
       }
+    } else if (currentStep === 4) {
+      if (!prefs.interests || prefs.interests.length === 0) {
+        setValidationError("Please select at least one interest.");
+        return false;
+      }
     }
     setValidationError(null);
     return true;
@@ -118,9 +127,15 @@ export const TripWizardModal: React.FC<TripWizardModalProps> = ({
     setStep((prev) => Math.max(1, prev - 1));
   };
 
-  const handleFinalSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (validateStep(4)) {
+  const validateAllSteps = (): boolean => {
+    return validateStep(1) && validateStep(2) && validateStep(3) && validateStep(4);
+  };
+
+  const handleFinalSubmit = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (isGenerating) return;
+
+    if (validateAllSteps()) {
       onSubmit(prefs);
     }
   };
@@ -134,7 +149,12 @@ export const TripWizardModal: React.FC<TripWizardModalProps> = ({
             <Sparkles className="wizard-sparkle-icon" />
             <h2>Plan a New AI Trip</h2>
           </div>
-          <button type="button" onClick={onClose} className="wizard-close-btn">
+          <button
+            type="button"
+            onClick={onClose}
+            disabled={isGenerating}
+            className="wizard-close-btn"
+          >
             <X size={20} />
           </button>
         </div>
@@ -167,7 +187,7 @@ export const TripWizardModal: React.FC<TripWizardModalProps> = ({
         )}
 
         {/* Form Body */}
-        <form onSubmit={handleFinalSubmit} className="wizard-modal-body">
+        <form onSubmit={(e) => e.preventDefault()} className="wizard-modal-body">
           {/* STEP 1: Destination & Dates */}
           {step === 1 && (
             <div className="wizard-step-content">
@@ -186,6 +206,7 @@ export const TripWizardModal: React.FC<TripWizardModalProps> = ({
                   placeholder="e.g. Lonavala, Goa, Paris, Tokyo, Bali"
                   value={prefs.destination}
                   onChange={(e) => handleChange("destination", e.target.value)}
+                  disabled={isGenerating}
                   autoFocus
                   className="wizard-input-text"
                 />
@@ -200,6 +221,7 @@ export const TripWizardModal: React.FC<TripWizardModalProps> = ({
                     type="date"
                     value={prefs.startDate}
                     onChange={(e) => handleChange("startDate", e.target.value)}
+                    disabled={isGenerating}
                     className="wizard-input-text"
                   />
                 </div>
@@ -212,6 +234,7 @@ export const TripWizardModal: React.FC<TripWizardModalProps> = ({
                     type="date"
                     value={prefs.endDate}
                     onChange={(e) => handleChange("endDate", e.target.value)}
+                    disabled={isGenerating}
                     className="wizard-input-text"
                   />
                 </div>
@@ -236,6 +259,7 @@ export const TripWizardModal: React.FC<TripWizardModalProps> = ({
                   <div className="number-counter">
                     <button
                       type="button"
+                      disabled={isGenerating}
                       onClick={() =>
                         handleChange("adults", Math.max(1, prefs.adults - 1))
                       }
@@ -245,6 +269,7 @@ export const TripWizardModal: React.FC<TripWizardModalProps> = ({
                     <span>{prefs.adults}</span>
                     <button
                       type="button"
+                      disabled={isGenerating}
                       onClick={() => handleChange("adults", prefs.adults + 1)}
                     >
                       +
@@ -259,6 +284,7 @@ export const TripWizardModal: React.FC<TripWizardModalProps> = ({
                   <div className="number-counter">
                     <button
                       type="button"
+                      disabled={isGenerating}
                       onClick={() =>
                         handleChange("children", Math.max(0, prefs.children - 1))
                       }
@@ -268,6 +294,7 @@ export const TripWizardModal: React.FC<TripWizardModalProps> = ({
                     <span>{prefs.children}</span>
                     <button
                       type="button"
+                      disabled={isGenerating}
                       onClick={() => handleChange("children", prefs.children + 1)}
                     >
                       +
@@ -282,6 +309,7 @@ export const TripWizardModal: React.FC<TripWizardModalProps> = ({
                   <div className="number-counter">
                     <button
                       type="button"
+                      disabled={isGenerating}
                       onClick={() =>
                         handleChange("rooms", Math.max(1, prefs.rooms - 1))
                       }
@@ -291,6 +319,7 @@ export const TripWizardModal: React.FC<TripWizardModalProps> = ({
                     <span>{prefs.rooms}</span>
                     <button
                       type="button"
+                      disabled={isGenerating}
                       onClick={() => handleChange("rooms", prefs.rooms + 1)}
                     >
                       +
@@ -317,6 +346,7 @@ export const TripWizardModal: React.FC<TripWizardModalProps> = ({
                   <select
                     value={prefs.currency}
                     onChange={(e) => handleChange("currency", e.target.value)}
+                    disabled={isGenerating}
                     className="wizard-select"
                   >
                     {CURRENCIES.map((curr) => (
@@ -329,14 +359,15 @@ export const TripWizardModal: React.FC<TripWizardModalProps> = ({
 
                 <div className="wizard-field-group">
                   <label>
-                    <DollarSign size={16} /> Total Budget
+                  Total Budget
                   </label>
                   <input
-                    type="number"
+            
                     value={prefs.totalBudget}
                     onChange={(e) =>
                       handleChange("totalBudget", parseFloat(e.target.value) || 0)
                     }
+                    
                     className="wizard-input-text"
                     placeholder="e.g. 15000"
                   />
@@ -360,6 +391,7 @@ export const TripWizardModal: React.FC<TripWizardModalProps> = ({
                   <select
                     value={prefs.travelStyle}
                     onChange={(e) => handleChange("travelStyle", e.target.value)}
+                    disabled={isGenerating}
                     className="wizard-select"
                   >
                     <option value="relaxed">Relaxed & Slow-paced</option>
@@ -377,6 +409,7 @@ export const TripWizardModal: React.FC<TripWizardModalProps> = ({
                     onChange={(e) =>
                       handleChange("accommodationPreference", e.target.value)
                     }
+                    disabled={isGenerating}
                     className="wizard-select"
                   >
                     <option value="resort">Resort / Spa</option>
@@ -396,6 +429,7 @@ export const TripWizardModal: React.FC<TripWizardModalProps> = ({
                     onChange={(e) =>
                       handleChange("minHotelRating", parseFloat(e.target.value))
                     }
+                    disabled={isGenerating}
                     className="wizard-select"
                   >
                     <option value="4.5">4.5+ Rating Only</option>
@@ -412,6 +446,7 @@ export const TripWizardModal: React.FC<TripWizardModalProps> = ({
                     onChange={(e) =>
                       handleChange("transportationPreference", e.target.value)
                     }
+                    disabled={isGenerating}
                     className="wizard-select"
                   >
                     <option value="rental_car">Rental Car / Private Cab</option>
@@ -431,6 +466,7 @@ export const TripWizardModal: React.FC<TripWizardModalProps> = ({
                       <button
                         key={item}
                         type="button"
+                        disabled={isGenerating}
                         onClick={() => toggleInterest(item)}
                         className={`interest-chip ${isSelected ? "selected" : ""}`}
                       >
@@ -450,6 +486,7 @@ export const TripWizardModal: React.FC<TripWizardModalProps> = ({
               <button
                 type="button"
                 onClick={handleBack}
+                disabled={isGenerating}
                 className="wizard-btn wizard-btn-back"
               >
                 <ChevronLeft size={16} /> Back
@@ -462,13 +499,15 @@ export const TripWizardModal: React.FC<TripWizardModalProps> = ({
               <button
                 type="button"
                 onClick={handleNext}
+                disabled={isGenerating}
                 className="wizard-btn wizard-btn-next"
               >
                 Next <ChevronRight size={16} />
               </button>
             ) : (
               <button
-                type="submit"
+                type="button"
+                onClick={handleFinalSubmit}
                 disabled={isGenerating}
                 className="wizard-btn wizard-btn-submit"
               >

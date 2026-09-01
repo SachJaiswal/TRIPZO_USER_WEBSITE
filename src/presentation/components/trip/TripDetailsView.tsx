@@ -127,7 +127,7 @@ export const TripDetailsView: React.FC<TripDetailsViewProps> = ({
 
           {/* Quick Action Toolbar */}
           <div className="hero-action-bar">
-            <button
+            {/* <button
               type="button"
               onClick={() => setIsCustomizeModalOpen(true)}
               disabled={isCustomizing}
@@ -135,7 +135,7 @@ export const TripDetailsView: React.FC<TripDetailsViewProps> = ({
             >
               <SlidersHorizontal size={16} />
               <span>{isCustomizing ? "Customizing..." : "Customize Itinerary"}</span>
-            </button>
+            </button> */}
 
             <button
               type="button"
@@ -431,11 +431,11 @@ export const TripDetailsView: React.FC<TripDetailsViewProps> = ({
                       <Star size={14} fill="#eab308" color="#eab308" />
                       {hotel.rating} ({hotel.user_ratings_total} reviews)
                     </span>
-                    {hotel.priceLevel && (
+                    {/* {hotel.priceLevel && (
                       <span className="price-level-pill">
                         {"$".repeat(hotel.priceLevel)}
                       </span>
-                    )}
+                    )} */}
                   </div>
 
                   <h3 className="hotel-name">{hotel.name}</h3>

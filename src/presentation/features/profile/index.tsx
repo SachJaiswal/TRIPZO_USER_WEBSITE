@@ -43,13 +43,13 @@ export const ProfileFeature: React.FC = () => {
               </div>
             </div>
 
-            <div className="user-detail-box">
+            {/* <div className="user-detail-box">
               <Smartphone className="user-detail-icon" />
               <div>
                 <span className="user-detail-label">Phone Number</span>
                 <span className="user-detail-value">{user?.phone_number || "Not specified"}</span>
               </div>
-            </div>
+            </div> */}
 
             <div className="user-detail-box">
               <Globe className="user-detail-icon" />

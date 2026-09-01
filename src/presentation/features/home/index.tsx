@@ -21,18 +21,8 @@ export const HomeFeature: React.FC = () => {
   const { user } = useAuth();
   const router = useRouter();
   const { trips, usage, isLoading } = useUserTrips();
-  const [destination, setDestination] = useState("");
-  const [days, setDays] = useState("5");
 
-  const handleStartPlanning = (e?: React.FormEvent) => {
-    if (e) e.preventDefault();
-    const targetDest = destination.trim();
-    if (targetDest) {
-      router.push(`/planner?destination=${encodeURIComponent(targetDest)}&days=${days}`);
-    } else {
-      router.push("/planner");
-    }
-  };
+  const isQuotaExceeded = Boolean(usage && usage.generations_count >= usage.max_allowed);
 
   const handleOpenPlan = (tripId: string) => {
     router.push(`/planner?tripId=${tripId}`);
@@ -54,41 +44,28 @@ export const HomeFeature: React.FC = () => {
               <Plane size={28} className="inline-hero-icon" />
             </h1>
             <p className="user-hero-subtitle">
-              Enter a destination and let Tripzo generate a complete personalized travel itinerary in seconds.
+              Let Tripzo generate a complete personalized travel itinerary in seconds. Click the button below to start creating your trip!
             </p>
 
-            {/* AI Trip Launcher Box */}
-            <form onSubmit={handleStartPlanning} className="ai-planner-box">
-              <div className="ai-planner-input-group">
-                <MapPin className="ai-planner-icon" />
-                <input
-                  type="text"
-                  placeholder="Where do you want to go? (e.g. Lonavala, Goa, Paris, Tokyo)"
-                  value={destination}
-                  onChange={(e) => setDestination(e.target.value)}
-                  className="ai-planner-input"
-                />
-              </div>
-
-              <div className="ai-planner-input-group ai-planner-input-group--short">
-                <Calendar className="ai-planner-icon" />
-                <select
-                  value={days}
-                  onChange={(e) => setDays(e.target.value)}
-                  className="ai-planner-select"
-                >
-                  <option value="3">3 Days</option>
-                  <option value="5">5 Days</option>
-                  <option value="7">7 Days</option>
-                  <option value="10">10 Days</option>
-                </select>
-              </div>
-
-              <button type="submit" className="ai-planner-btn">
+            {/* AI Trip Launcher Hero Action */}
+            <div className="ai-planner-hero-action">
+              <button
+                type="button"
+                onClick={() => router.push("/planner")}
+                disabled={isQuotaExceeded}
+                className="ai-planner-btn ai-planner-btn--hero"
+              >
+                <Sparkles size={18} />
                 <span>Generate Itinerary</span>
                 <ArrowRight className="ai-planner-btn-icon" />
               </button>
-            </form>
+
+              {isQuotaExceeded && (
+                <span className="quota-exceeded-notice">
+                  Generation quota limit reached ({usage?.generations_count} / {usage?.max_allowed})
+                </span>
+              )}
+            </div>
           </div>
         </section>
 
@@ -144,7 +121,7 @@ export const HomeFeature: React.FC = () => {
 
           {!isLoading && trips.length > 0 ? (
             <div className="user-trips-grid">
-              {trips.slice(0, 3).map((trip) => {
+              {trips.slice(0, 4).map((trip) => {
                 const destName = trip.destinationDetails?.name || trip.preferences.destination;
                 return (
                   <div
